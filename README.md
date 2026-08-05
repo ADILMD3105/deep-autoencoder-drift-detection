@@ -1,95 +1,91 @@
 # 🧠 Deep Autoencoder for Unsupervised Data Drift Detection
 
-A deep learning-based system for detecting **data drift** in machine learning pipelines using **Deep Autoencoders**. The model learns the normal characteristics of baseline data and identifies distribution shifts by analyzing reconstruction error, enabling early detection of performance degradation without requiring labeled data.
+A deep learning-based system for detecting **data drift** in machine learning pipelines using a **Deep Autoencoder**. The model learns the normal behavior of baseline data and detects distribution shifts by analyzing reconstruction error without requiring labeled data.
 
 ---
 
-## 📌 Overview
+## 📖 Overview
 
-Machine learning models assume that future data follows the same distribution as the data used during training. In real-world applications, however, data distributions change over time due to evolving user behavior, environmental conditions, or operational changes. This phenomenon is known as **data drift** and can significantly reduce model performance.
+Machine learning models often assume that future data follows the same distribution as the data used during training. In real-world environments, however, data evolves over time due to changing user behavior, environmental conditions, or operational changes. This phenomenon, known as **data drift**, can significantly reduce model performance.
 
-This project presents an **unsupervised drift detection system** built with PyTorch that learns normal data patterns using a deep autoencoder. Incoming data is reconstructed by the trained model, and reconstruction error is monitored to detect deviations from the learned baseline.
-
-The system was evaluated on multiple real-world datasets, demonstrating its ability to identify both sudden and gradual drift across different domains.
+This project presents an **unsupervised drift detection system** built using PyTorch. A deep autoencoder is trained on baseline data to learn normal patterns. Incoming data is then reconstructed, and the reconstruction error is compared against a threshold derived from the baseline data. Samples exceeding the threshold are identified as potential drift.
 
 ---
 
 ## ✨ Features
 
-- Deep Autoencoder implemented using **PyTorch**
-- Fully **unsupervised** drift detection
-- Dataset-independent preprocessing pipeline
-- Reconstruction error-based drift detection
-- Automatic threshold generation using the **95th percentile**
-- Supports multiple structured datasets
-- Visualizes reconstruction error and detected drift
-- Modular and easy-to-extend project structure
+- Deep Autoencoder implemented using PyTorch
+- Fully unsupervised drift detection
+- Automatic data preprocessing pipeline
+- Reconstruction error-based anomaly detection
+- 95th percentile threshold for drift detection
+- Visualization of reconstruction error and drift
+- Modular and easy-to-extend codebase
 
 ---
 
-## 🔄 System Workflow
+# 🔄 System Workflow
 
 <p align="center">
-  <img src="images/workflow.png" width="850">
+<img src="images/workflow.png" width="850">
 </p>
 
-The workflow begins with data preprocessing and normalization, followed by splitting the dataset into baseline and stream data. The autoencoder is trained using baseline data to learn normal behavior. Incoming stream data is reconstructed by the trained model, and reconstruction error is calculated for every sample. A threshold based on the 95th percentile of baseline reconstruction error is then used to identify potential drift.
+The dataset is first preprocessed and divided into baseline and stream data. The autoencoder is trained only on baseline data to learn normal patterns. Incoming stream data is reconstructed by the trained model, and reconstruction error is calculated. A statistical threshold is then used to determine whether the incoming data has drifted from the learned distribution.
 
 ---
 
-## 🏗 Deep Autoencoder Architecture
+# 🏗 Autoencoder Architecture
 
 <p align="center">
-  <img src="images/architecture.png" width="700">
+<img src="images/architecture.png" width="650">
 </p>
 
-The autoencoder compresses input data into a lower-dimensional latent representation and reconstructs it back to its original form. Since the model is trained only on baseline data, it reconstructs familiar patterns accurately while producing higher reconstruction errors for data that differs significantly from the learned distribution.
+The encoder compresses the input into a lower-dimensional latent representation, while the decoder reconstructs the original input. Since the model has learned only normal data, unfamiliar patterns produce higher reconstruction errors, enabling drift detection.
 
 ---
 
-## 📊 Experimental Results
-
-### Training Performance
+# 📈 Training Performance
 
 <p align="center">
-  <img src="images/training-loss.png" width="700">
+<img src="images/training-loss.png" width="700">
 </p>
 
 The reconstruction loss decreases consistently during training, indicating that the model successfully learns the underlying characteristics of the baseline dataset.
 
 ---
 
-### Credit Card Dataset
+# 🚨 Drift Detection
 
 <p align="center">
-  <img src="images/creditcard-result.png" width="850">
+<img src="images/drift-threshold.png" width="700">
 </p>
 
-The model successfully identifies abrupt increases in reconstruction error, highlighting significant distribution changes in transaction data.
+A drift threshold is computed using the **95th percentile** of reconstruction errors from the baseline data. Incoming samples with reconstruction errors exceeding this threshold are classified as drifted data.
 
 ---
 
-### Forest Cover Type Dataset
+# 📊 Experimental Result
 
 <p align="center">
-  <img src="images/covtype-result.png" width="850">
+<img src="images/creditcard-result.png" width="850">
 </p>
 
-Evaluation on the Covtype dataset demonstrates that the proposed approach generalizes well beyond financial data and remains effective for environmental datasets.
+The model successfully detects significant changes in incoming data by monitoring reconstruction error. Samples exceeding the drift threshold indicate distribution shifts that may negatively affect machine learning model performance.
 
 ---
 
-### Electricity Load Dataset
+# 🛠 Technologies Used
 
-<p align="center">
-  <img src="images/electricity-result.png" width="850">
-</p>
-
-Unlike sudden spikes observed in structured datasets, the electricity dataset exhibits gradual drift over time. The increasing reconstruction error illustrates the model's capability to detect slowly evolving distribution shifts.
+- Python
+- PyTorch
+- Pandas
+- NumPy
+- Scikit-learn
+- Matplotlib
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```text
 Deep-Autoencoder-Data-Drift-Detection
@@ -110,18 +106,7 @@ Deep-Autoencoder-Data-Drift-Detection
 
 ---
 
-## 🛠 Tech Stack
-
-- Python
-- PyTorch
-- NumPy
-- Pandas
-- Scikit-learn
-- Matplotlib
-
----
-
-## 🚀 Installation
+# 🚀 Installation
 
 Clone the repository
 
@@ -137,7 +122,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Usage
+# ▶️ Usage
 
 Train the model
 
@@ -153,28 +138,20 @@ python -m src.detect_drift path/to/dataset.csv
 
 ---
 
-## 📁 Datasets
+# 📁 Dataset
 
-The project was evaluated using publicly available datasets:
+This project was evaluated using publicly available datasets including the **Credit Card Fraud Detection Dataset**, **Forest Cover Type Dataset (Covtype)**, and **Electricity Load Diagrams Dataset**.
 
-- Credit Card Fraud Detection Dataset
-- Forest Cover Type Dataset (Covtype)
-- Electricity Load Diagrams 2011–2014 Dataset
-
-Due to dataset size and licensing considerations, datasets are **not included** in this repository. Please download them from their official sources before running the project.
+Datasets are not included in this repository due to their size and licensing restrictions. Please download them from their official sources before running the project.
 
 ---
 
-## 🔮 Future Improvements
+# 🔮 Future Improvements
 
-- Feature-level drift localization
-- Adaptive threshold selection
 - Online drift detection
+- Adaptive threshold selection
+- Feature-level drift localization
 - Automatic model retraining
-- Integration with MLOps monitoring pipelines
+- Integration with MLOps pipelines
 
 ---
-
-## 📄 License
-
-This project is released under the MIT License.
